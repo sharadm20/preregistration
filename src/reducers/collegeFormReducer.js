@@ -17,13 +17,14 @@ const initialState = {
     venueType:{},
     formObj:{},
     isLoading : false,
+    hasLoaded: false,
     errorMessage: null
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
         case FETCH_STATES:
-            return {
+            return {  
                 ...state,
                 stateArray: action.payload
             }
@@ -48,12 +49,14 @@ export default function (state = initialState, action) {
               return {
                   ...state,
                   isLoading: false,
+                  hasLoaded: true,
                   token: action.payload
               }
         case GET_TOKEN_ERROR:
           return {
               ...state,
               isLoading: false,
+              hasLoaded: false,
               errorMessage: action.payload.message
           }
         case GET_VENUE_TYPE:

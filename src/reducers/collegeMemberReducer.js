@@ -6,7 +6,7 @@ FORM_POST_SUCCESS
 const initialState = {
     List: [],
     Saved:[]
-
+    
 }
 
 export default function (state = initialState, action) {

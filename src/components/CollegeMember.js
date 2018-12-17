@@ -19,7 +19,7 @@ class CollegeMember extends Component{
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.handleValidation()) {
-            this.props.submitForm(e);
+            this.props.submitForm(e,this.props.token);
         }
     }
     onChange=(e)=> {
@@ -158,7 +158,7 @@ class CollegeMember extends Component{
         ));
          var html = this.MemberForm(dept,desg);
         }
-       
+       if (this.props.formSuccess.length === 0) {
         return (<div className="container has-text-center">
             <div className="card">
             <header className="card-header">
@@ -179,6 +179,21 @@ class CollegeMember extends Component{
             </form>
             </div>
         </div>)
+       }
+       else {
+           return (<div className="container has-text-center">
+           <article className= "message is-success">
+                <div className="message-header">
+                    <p>Success</p>
+                   
+                </div>
+                <div className="message-body">
+                    {this.props.formSuccess.message}
+                </div>
+            </article>
+           </div>
+           )
+       }
     }
 }
 
@@ -190,7 +205,9 @@ CollegeMember.propTypes = {
 }
 const mapStateToProps = state => ({
     formObj: state.apiData.formObj,
-    List:state.memData.List
+    token:state.apiData.token,
+    List:state.memData.List,
+    formSuccess:state.memData.Saved
 });
 export default connect(mapStateToProps, {
     getDesignationDepartment, submitForm

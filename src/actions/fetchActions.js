@@ -12,12 +12,12 @@ import {
 } from '../actions/types';
 
 const postheaders={
- 'Content-Type': 'application/x-www-form-urlencoded'
+ 'Content-Type': 'application/json'
 };
 
 
 export const getVenueType = (id,token) => dispatch => {
-    fetch(`http://localhost:8001/api/venuesData/${id}?token=${token}`)
+    fetch(`http://localhost:3001/api/venue/${id}?token=${token}`)
         .then(res => res.json())
         .then(venueType =>
             dispatch({
@@ -30,7 +30,7 @@ export const getVenueType = (id,token) => dispatch => {
 
 export const getToken = (username, password) =>async dispatch => {
     dispatch({type:  GET_TOKEN_BEGIN});
-    return await fetch('http://localhost:8001/api/getToken',{
+ await fetch('http://localhost:3001/api/auth/login',{
           method: 'POST',
           headers: postheaders,
           body:JSON.stringify({username,password})
@@ -38,7 +38,7 @@ export const getToken = (username, password) =>async dispatch => {
             .then(res => res.json())
             .then((token) =>dispatch({
                     type: GET_TOKEN_SUCCESS,
-                    payload:token
+                    payload:token.access_token
             })).catch(error=>dispatch({
                 type:GET_TOKEN_ERROR,
                 payload:error,
@@ -48,7 +48,7 @@ export const getToken = (username, password) =>async dispatch => {
 
 
 export const fetchStates = (token) =>async dispatch => {
-    await fetch(`http://localhost:8001/api/states?token=${token}`)
+    await fetch(`http://localhost:3001/api/state?token=${token}`)
         .then(res => res.json())
         .then(states => dispatch({
             type: FETCH_STATES,
@@ -57,7 +57,7 @@ export const fetchStates = (token) =>async dispatch => {
 };
 
 export const fetchColleges = (state,token) => dispatch => {
-    fetch(`http://localhost:8001/api/colleges/${state}?token=${token}`)
+    fetch(`http://localhost:3001/api/colleges/${state}?token=${token}`)
         .then(res => res.json())
         .then(colleges =>
             dispatch({
@@ -67,8 +67,8 @@ export const fetchColleges = (state,token) => dispatch => {
         ).catch(err => console.log('Error:', err));
 };
 
-export const fetchVenues=()=>dispatch=>{
-       fetch('http://localhost:8001/api/venues')
+export const fetchVenues=(token)=>dispatch=>{
+       fetch(`http://localhost:3001/api/venue?token=${token}`)
            .then(res => res.json())
            .then(venues => dispatch({
                type: FETCH_VENUES,
@@ -95,7 +95,7 @@ export const submitForm = (data,token) => dispatch => {
         ...memo,
         [pair[0]]: pair[1],
     }), {});
-   fetch(`http://localhost:8001/api/formSubmit?token=${token}`,{
+   fetch(`http://localhost:3001/api/formSubmit?token=${token}`,{
           method: 'POST',
           headers: postheaders,
           body:JSON.stringify(form)
@@ -110,7 +110,7 @@ export const submitForm = (data,token) => dispatch => {
 }
 
    export const getDesignationDepartment = () => dispatch => {
-       fetch('http://localhost:8001/api/designation/department/list')
+       fetch('http://localhost:3001/api/desgdept')
            .then(res => res.json())
            .then(list => dispatch({
                type: GET_DEPARTMENT_DESIGNATION,
