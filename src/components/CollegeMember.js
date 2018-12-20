@@ -182,12 +182,12 @@ class CollegeMember extends Component{
        }
        else {
            return (<div className="container has-text-center">
-           <article className= "message is-success">
+           <article className= "message is-small">
                 <div className="message-header">
-                    <p>Success</p>
+                    <p>Status</p>
                    
                 </div>
-                <div className="message-body">
+                <div className="message-body title">
                     {this.props.formSuccess.message}
                 </div>
             </article>
